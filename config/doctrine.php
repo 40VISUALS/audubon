@@ -1,10 +1,11 @@
 <?php
 
+
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Entity Mangers
+    | Entity Managers
     |--------------------------------------------------------------------------
     |
     | Configure your Entity Managers here. You can set a different connection
@@ -12,28 +13,28 @@ return [
     | paths setting to the appropriate path and replace App namespace
     | by your own namespace.
     |
-    | Available meta drivers: fluent|annotations|yaml|xml|config|static_php|php
+    | Available meta drivers: fluent|annotations|yaml|simplified_yaml|xml|simplified_xml|config|static_php|php
     |
     | Available connections: mysql|oracle|pgsql|sqlite|sqlsrv
     | (Connections can be configured in the database config)
+    |
+    | Depending on the chosen database connection, various other settings are
+    | available. Check the available settings for your connection type in
+    | the LaravelDoctrine\ORM\Configuration\Connections namespace.
     |
     | --> Warning: Proxy auto generation should only be enabled in dev!
     |
     */
     'managers'                   => [
         'default' => [
-            'dev'           => env('APP_DEBUG'),
+            'dev'           => env('APP_DEBUG', true),
             'meta'          => env('DOCTRINE_METADATA', 'yaml'),
             'connection'    => env('DB_CONNECTION', 'mysql'),
-            'namespaces'    => [
-                'App'
-            ],
+            'namespaces'    => [],
             'paths'         => [
-                dirname(__FILE__) . '/../app/src/Mapping'
+                base_path('app/src/Entities'),
+                base_path('app/src/Mapping')
             ],
-//            'paths'         => [
-//                base_path('app')
-//            ],
             'repository'    => Doctrine\ORM\EntityRepository::class,
             'proxies'       => [
                 'namespace'     => false,
@@ -69,11 +70,11 @@ return [
             | });
             |
             | References:
-            | http://doctrine-orm.readthedocs.org/en/latest/cookbook/custom-mapping-types.html
-            | http://doctrine-dbal.readthedocs.org/en/latest/reference/types.html#custom-mapping-types
-            | http://doctrine-orm.readthedocs.org/en/latest/cookbook/advanced-field-value-conversion-using-custom-mapping-types.html
-            | http://doctrine-orm.readthedocs.org/en/latest/reference/basic-mapping.html#reference-mapping-types
-            | http://symfony.com/doc/current/cookbook/doctrine/dbal.html#registering-custom-mapping-types-in-the-schematool
+            | https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/custom-mapping-types.html
+            | https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html#custom-mapping-types
+            | https://www.doctrine-project.org/projects/doctrine-orm/en/current/cookbook/advanced-field-value-conversion-using-custom-mapping-types.html
+            | https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/basic-mapping.html
+            | https://symfony.com/doc/current/doctrine/dbal.html#registering-custom-mapping-types-in-the-schematool
             |--------------------------------------------------------------------------
             */
             'mapping_types' => [
@@ -113,7 +114,6 @@ return [
     |--------------------------------------------------------------------------
     */
     'custom_types'               => [
-        'json' => LaravelDoctrine\ORM\Types\Json::class
     ],
     /*
     |--------------------------------------------------------------------------
@@ -135,6 +135,14 @@ return [
     'custom_string_functions'    => [],
     /*
     |--------------------------------------------------------------------------
+    | Register custom hydrators
+    |--------------------------------------------------------------------------
+    */
+    'custom_hydration_modes'     => [
+        // e.g. 'hydrationModeName' => MyHydrator::class,
+    ],
+    /*
+    |--------------------------------------------------------------------------
     | Enable query logging with laravel file logging,
     | debugbar, clockwork or an own implementation.
     | Setting it to false, will disable logging
@@ -154,13 +162,25 @@ return [
     | Configure meta-data, query and result caching here.
     | Optionally you can enable second level caching.
     |
-    | Available: apc|array|file|memcached|redis|void
+    | Available: apc|array|file|illuminate|memcached|php_file|redis|void
     |
     */
-    'cache'                      => [
-        'default'      => env('DOCTRINE_CACHE', 'array'),
-        'namespace'    => null,
-        'second_level' => false,
+    'cache' => [
+        'second_level'     => false,
+        'default'          => env('DOCTRINE_CACHE', 'array'),
+        'namespace'        => null,
+        'metadata'         => [
+            'driver'       => env('DOCTRINE_METADATA_CACHE', env('DOCTRINE_CACHE', 'array')),
+            'namespace'    => null,
+        ],
+        'query'            => [
+            'driver'       => env('DOCTRINE_QUERY_CACHE', env('DOCTRINE_CACHE', 'array')),
+            'namespace'    => null,
+        ],
+        'result'           => [
+            'driver'       => env('DOCTRINE_RESULT_CACHE', env('DOCTRINE_CACHE', 'array')),
+            'namespace'    => null,
+        ],
     ],
     /*
     |--------------------------------------------------------------------------
