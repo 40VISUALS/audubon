@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HelloController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,8 +14,4 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('hello', 'HelloController@helloWorld');
+Route::get('/', [HelloController::class, 'helloWorld']);
