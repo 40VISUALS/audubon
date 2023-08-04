@@ -27,6 +27,7 @@ return [
     */
     'managers'                   => [
         'default' => [
+            'naming_strategy' => \Doctrine\ORM\Mapping\DefaultNamingStrategy::class,
             'dev'           => env('APP_DEBUG', true),
             'meta'          => env('DOCTRINE_METADATA', 'yaml'),
             'connection'    => env('DB_CONNECTION', 'mysql'),

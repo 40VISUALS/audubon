@@ -15,4 +15,5 @@ Audubon\Entities\HelloWorld:
             type: string
             nullable: false
             length: 100
+
     lifecycleCallbacks: {  }

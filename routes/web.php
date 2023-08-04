@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HelloController;
+use App\Http\Controllers\BirdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +14,8 @@ use App\Http\Controllers\HelloController;
 |
 */
 
-Route::get('/', [HelloController::class, 'helloWorld']);
+//Route::get('/', [HelloController::class, 'helloWorld']);
+Route::get('/', [BirdController::class, 'audubonSociety']);
+Route::post('/save-sighting', [BirdController::class, 'saveAudubonSociety']);
+Route::any('/display-all-sightings', [BirdController::class, 'displayAllSightings']);
+//Route::get('/', [BirdController::class, 'displayAllSightings']);

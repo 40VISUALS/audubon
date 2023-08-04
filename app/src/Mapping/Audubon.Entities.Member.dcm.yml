@@ -1,0 +1,27 @@
+Audubon\Entities\Member:
+    type: entity
+    table: Member
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 100
+        email:
+            type: string
+            nullable: true
+            length: 100
+        phone_num:
+            type: string
+            nullable: true
+            length: 100
+
+    lifecycleCallbacks: {  }
